@@ -22,15 +22,18 @@ submitButton.onclick = () => {
         var removeButton = document.createElement("td");
         removeButton.classList.add("removeButton");
         removeButton.innerHTML = removeButtonInner;
+        addRemoveOnClick(removeButton);
 
         //create task item
         var task = document.createElement("td");
         task.innerText = item;
 
-        //put them together
+        //put them together in one row
         var row = document.createElement("tr");
         row.appendChild(task);
         row.appendChild(removeButton);
+
+        //add to site
         taskList.appendChild(row);
     }
     
