@@ -2,7 +2,8 @@ var elements = document.getElementsByClassName("removeButton");
 const taskList = document.getElementById("taskList");
 const removeButtonInner = '<span class="cursorPointer">✖</span>';
 
-var items = new Array();
+var items = JSON.parse('{"taskName": "uwu","id": 1}{"taskName": "owo","id": 2}');
+console.log(items);
 var localStorage = window.localStorage;
 var itemsLocal = localStorage.getItem("items");
 if (!itemsLocal) {
@@ -29,7 +30,7 @@ function addRemoveOnClick(element) {
 const submitButton = document.getElementById("submitItem");
 
 submitButton.onclick = () => {
-    console.log(document.getElementById("thead").childNodes);
+    console.log(document.getElementById("taskList").childNodes);
     let itemText = document.getElementById("listTextInput").value;
     if (itemText != "") {
         createListItem(itemText);
@@ -66,10 +67,10 @@ function saveToLocalStorage(text) {
 }
 
 function loadLocalStorage() {
-    items = itemsLocal.split(",");
-    items.forEach(item => {
+    /*items.forEach(item => {
         createListItem(item);
-    });
+    });*/
+    console.log(items.id)
 }
 
 function removeFromLocalStorage(index) {
