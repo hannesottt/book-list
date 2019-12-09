@@ -1,0 +1,36 @@
+:root {
+    --bg: #212121;
+    --gray1: #434343;
+    --gray2: #565656;
+}
+body {
+    background-color: var(--bg);
+    color: white;
+}
+.header {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+.container {
+    background-color: var(--gray1);
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 15px;
+}
+input#listTextInput {
+    background-color: var(--gray2);
+}
+th.task {
+    width: 85%;
+}
+th.remove {
+    text-align: center;
+}
+td.removeButton {
+    text-align: center;
+    font-weight: bold;
+}
+span.cursorPointer {
+    cursor: pointer;
+    color: red;
+}

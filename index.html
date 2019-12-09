@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>uwu</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2 class="header">List</h2>
+            <label for="listTextInput">New Item</label>
+            <input class="u-full-width" type="text" id="listTextInput">
+            <input class="button-primary" type="submit" value="Submit" id="submitItem">
+        </div>
+        <div class="row">
+            <table class="u-full-width">
+                <thead>
+                    <tr>
+                        <th class="task">Task</th>
+                        <th class="remove">Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="taskList">
+                    <tr>
+                        <td>owo what's this?</td>
+                        <td class="removeButton"><span class="cursorPointer">✖</span></td>
+                    </tr>
+                    <tr>
+                        <td>uwu what's this?</td>
+                        <td class="removeButton"><span class="cursorPointer">✖</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+</html>
