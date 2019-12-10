@@ -2,15 +2,14 @@ var elements = document.getElementsByClassName("removeButton");
 const taskList = document.getElementById("taskList");
 const removeButtonInner = '<span class="cursorPointer">✖</span>';
 
-var items = JSON.parse('{"taskName": "uwu","id": 1}{"taskName": "owo","id": 2}');
-console.log(items);
-var localStorage = window.localStorage;
-var itemsLocal = localStorage.getItem("items");
-if (!itemsLocal) {
-    localStorage.setItem("items", items);
-} else {
-    loadLocalStorage();
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
+  
+
+var items = new Array();
 
 function addRemoveOnClick(element) {
     //ugly
@@ -22,7 +21,7 @@ function addRemoveOnClick(element) {
     if (typeof element === "object" && element.nodeName === "SPAN") {
         element.onclick = function() {
             element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
-            removeFromLocalStorage();
+            items.filter(item => item.id != element.id);
         };
     }
 }
@@ -30,16 +29,17 @@ function addRemoveOnClick(element) {
 const submitButton = document.getElementById("submitItem");
 
 submitButton.onclick = () => {
-    console.log(document.getElementById("taskList").childNodes);
     let itemText = document.getElementById("listTextInput").value;
     if (itemText != "") {
-        createListItem(itemText);
+        var listItem = {text:itemText, id:uuidv4()};
+        createListItem(itemText, listItem.id);
+        items.push(listItem);
         document.getElementById("listTextInput").value = "";
-        saveToLocalStorage(itemText);
+        console.log(items);
     }
 }
 
-function createListItem(text) {
+function createListItem(text, id) {
     //create remove button
     var removeButton = document.createElement("td");
     removeButton.classList.add("removeButton");
@@ -47,7 +47,8 @@ function createListItem(text) {
     removeSpan.classList.add("cursorPointer");
     removeSpan.innerText = "✖";
     removeButton.appendChild(removeSpan);
-    addRemoveOnClick(removeSpan);
+    removeButton.id = id;
+    addRemoveOnClick(removeSpan, id);
     //create task item
     var item = document.createElement("td");
     item.classList.add("taskItem");
@@ -59,20 +60,4 @@ function createListItem(text) {
     //add to site
     taskList.appendChild(row);
     //empty text box
-}
-
-function saveToLocalStorage(text) {
-    items.push(text);
-    localStorage.setItem("items", items);
-}
-
-function loadLocalStorage() {
-    /*items.forEach(item => {
-        createListItem(item);
-    });*/
-    console.log(items.id)
-}
-
-function removeFromLocalStorage(index) {
-    console.log(index);
 }
