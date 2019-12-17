@@ -32,6 +32,7 @@ function addRemoveOnClick(element) {
     }
 }
 
+const filterInput = document.getElementById("filterInput");
 const submitButton = document.getElementById("submitItem");
 
 submitButton.onclick = () => {
@@ -42,6 +43,40 @@ submitButton.onclick = () => {
         items.push(listItem);
         saveItems();
         document.getElementById("listTextInput").value = "";
+    }
+}
+
+filterInput.oninput = () => {
+    filterList(filterInput.value);
+}
+
+function filterList(text) {
+    if (text !== "") {
+        var filteredList = items.filter(function( obj ) {
+            if (!obj.text.toLowerCase().indexOf(text.toLowerCase())) {
+                return obj.text;
+            };
+        });
+        clearList();
+        filteredList.forEach(element => {
+            createListItem(element.text, element.id);
+        });
+    } else {
+        resetList();
+    }
+}
+
+function resetList() {
+    clearList();
+    items.forEach(element => {
+        createListItem(element.text, element.id);
+    });
+}
+
+function clearList() {
+    const myNode = document.getElementById("taskList");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
     }
 }
 
