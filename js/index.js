@@ -7,9 +7,12 @@ function uuidv4() {
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
 }
-  
 
 var items = new Array();
+
+function saveItems() {
+    localStorage.setItem("items", JSON.stringify(items));
+}
 
 function addRemoveOnClick(element) {
     //ugly
@@ -20,8 +23,11 @@ function addRemoveOnClick(element) {
                 <span> <-onclick is added here*/
     if (typeof element === "object" && element.nodeName === "SPAN") {
         element.onclick = function() {
+            items = items.filter(function( obj ) {
+                return obj.id !== element.parentNode.parentNode.id.toString();
+            });
             element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
-            items.filter(item => item.id != element.id);
+            saveItems();
         };
     }
 }
@@ -34,8 +40,8 @@ submitButton.onclick = () => {
         var listItem = {text:itemText, id:uuidv4()};
         createListItem(itemText, listItem.id);
         items.push(listItem);
+        saveItems();
         document.getElementById("listTextInput").value = "";
-        console.log(items);
     }
 }
 
@@ -47,8 +53,7 @@ function createListItem(text, id) {
     removeSpan.classList.add("cursorPointer");
     removeSpan.innerText = "✖";
     removeButton.appendChild(removeSpan);
-    removeButton.id = id;
-    addRemoveOnClick(removeSpan, id);
+    addRemoveOnClick(removeSpan);
     //create task item
     var item = document.createElement("td");
     item.classList.add("taskItem");
@@ -57,7 +62,19 @@ function createListItem(text, id) {
     var row = document.createElement("tr");
     row.appendChild(item);
     row.appendChild(removeButton);
+    row.id = id;
     //add to site
     taskList.appendChild(row);
     //empty text box
+}
+
+function onLoad() {
+    var localContent = JSON.parse(localStorage.getItem("items"));
+    if (localContent != null) {
+        items = localContent;
+    }
+    console.log(items);
+    items.forEach(element => {
+        createListItem(element.text, element.id);
+    });
 }
