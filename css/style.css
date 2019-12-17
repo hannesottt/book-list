@@ -33,3 +33,6 @@ span.cursorPointer {
 input.text-white {
     color: white;
 }
+a.modal-close {
+    color: white;
+}

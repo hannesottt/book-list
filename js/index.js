@@ -14,6 +14,8 @@ function saveItems() {
     localStorage.setItem("items", JSON.stringify(items));
 }
 
+var id, elementToRemove;
+
 function addRemoveOnClick(element) {
     //ugly
     /*assumes, that we're organized like this:
@@ -23,13 +25,20 @@ function addRemoveOnClick(element) {
                 <span> <-onclick is added here*/
     if (typeof element === "object" && element.nodeName === "SPAN") {
         element.onclick = function() {
-            items = items.filter(function( obj ) {
-                return obj.id !== element.parentNode.parentNode.id.toString();
-            });
-            element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
-            saveItems();
+            var instance = M.Modal.getInstance(document.getElementById("modal1"));
+            id = element.parentNode.parentNode.id.toString();
+            elementToRemove = element;
+            instance.open();
         };
     }
+}
+
+function removeElement() {
+    items = items.filter(function( obj ) {
+        return obj.id !== id;
+    });
+    elementToRemove.parentNode.parentNode.parentNode.removeChild(elementToRemove.parentNode.parentNode);
+    saveItems();
 }
 
 const filterInput = document.getElementById("filterInput");
@@ -113,3 +122,8 @@ function onLoad() {
         createListItem(element.text, element.id);
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, null);
+});
