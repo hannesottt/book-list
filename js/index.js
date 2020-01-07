@@ -1,5 +1,5 @@
 var elements = document.getElementsByClassName("removeButton");
-const taskList = document.getElementById("taskList");
+const bookList = document.getElementById("bookList");
 const removeButtonInner = '<span class="cursorPointer">✖</span>';
 
 function uuidv4() {
@@ -45,13 +45,15 @@ const filterInput = document.getElementById("filterInput");
 const submitButton = document.getElementById("submitItem");
 
 submitButton.onclick = () => {
-    let itemText = document.getElementById("listTextInput").value;
-    if (itemText != "") {
-        var listItem = {text:itemText, id:uuidv4()};
-        createListItem(itemText, listItem.id);
+    let bookAuthor = document.getElementById("bookAuthorInput").value;
+    let bookTitle = document.getElementById("bookTitleInput").value;
+    if (bookAuthor != "" && bookTitle != "") {
+        var listItem = {author:bookAuthor, title:bookTitle, id:uuidv4()};
+        createListItem(listItem.title, listItem.id, listItem.author);
         items.push(listItem);
         saveItems();
-        document.getElementById("listTextInput").value = "";
+        document.getElementById("bookAuthorInput").value = "";
+        document.getElementById("bookTitleInput").value = "";
     }
 }
 
@@ -62,13 +64,16 @@ filterInput.oninput = () => {
 function filterList(text) {
     if (text !== "") {
         var filteredList = items.filter(function( obj ) {
-            if (!obj.text.toLowerCase().indexOf(text.toLowerCase())) {
-                return obj.text;
+            if (!obj.title.toLowerCase().indexOf(text.toLowerCase())) {
+                return obj.title;
+            };
+            if (!obj.author.toLowerCase().indexOf(text.toLowerCase())) {
+                return obj.author;
             };
         });
         clearList();
         filteredList.forEach(element => {
-            createListItem(element.text, element.id);
+            createListItem(element.title, element.id, element.author);
         });
     } else {
         resetList();
@@ -78,18 +83,18 @@ function filterList(text) {
 function resetList() {
     clearList();
     items.forEach(element => {
-        createListItem(element.text, element.id);
+        createListItem(element.title, element.id, element.author);
     });
 }
 
 function clearList() {
-    const myNode = document.getElementById("taskList");
+    const myNode = document.getElementById("bookList");
     while (myNode.firstChild) {
         myNode.removeChild(myNode.firstChild);
     }
 }
 
-function createListItem(text, id) {
+function createListItem(title, id, author) {
     //create remove button
     var removeButton = document.createElement("td");
     removeButton.classList.add("removeButton");
@@ -98,17 +103,22 @@ function createListItem(text, id) {
     removeSpan.innerText = "✖";
     removeButton.appendChild(removeSpan);
     addRemoveOnClick(removeSpan);
-    //create task item
-    var item = document.createElement("td");
-    item.classList.add("taskItem");
-    item.innerText = text;
+    //create title item
+    var titleItem = document.createElement("td");
+    titleItem.classList.add("titleItem");
+    titleItem.innerText = title;
+    //create author item
+    var authorItem = document.createElement("td");
+    authorItem.classList.add("authorItem");
+    authorItem.innerText = author;
     //put them together in one row
     var row = document.createElement("tr");
-    row.appendChild(item);
+    row.appendChild(titleItem);
+    row.appendChild(authorItem);
     row.appendChild(removeButton);
     row.id = id;
     //add to site
-    taskList.appendChild(row);
+    bookList.appendChild(row);
     //empty text box
 }
 
@@ -119,7 +129,7 @@ function onLoad() {
     }
     console.log(items);
     items.forEach(element => {
-        createListItem(element.text, element.id);
+        createListItem(element.title, element.id, element.author);
     });
 }
 

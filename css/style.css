@@ -13,14 +13,18 @@ body {
 .container {
     padding: 15px;
 }
-input#listTextInput {
+input#bookTitleInput, input#bookAuthorInput {
     color: white;
 }
 th.task {
-    width: 85%;
+    width: 45%;
+}
+th.author {
+    width: 40%;
 }
 th.remove {
     text-align: center;
+    width: 15%;
 }
 td.removeButton {
     text-align: center;
